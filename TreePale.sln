@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreePale", "TreePale\TreePale.csproj", "{84F826FA-28C2-44CC-9872-7074C0ABC3ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreePale.Plugins", "TreePale.Plugins\TreePale.Plugins.csproj", "{694421C4-7979-4440-A917-3712C926AA2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreePale.Shared", "TreePale.Shared\TreePale.Shared.csproj", "{C80E0843-5174-42F7-8715-86B7E46BEABF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{84F826FA-28C2-44CC-9872-7074C0ABC3ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84F826FA-28C2-44CC-9872-7074C0ABC3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84F826FA-28C2-44CC-9872-7074C0ABC3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84F826FA-28C2-44CC-9872-7074C0ABC3ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{694421C4-7979-4440-A917-3712C926AA2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{694421C4-7979-4440-A917-3712C926AA2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{694421C4-7979-4440-A917-3712C926AA2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{694421C4-7979-4440-A917-3712C926AA2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C80E0843-5174-42F7-8715-86B7E46BEABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C80E0843-5174-42F7-8715-86B7E46BEABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C80E0843-5174-42F7-8715-86B7E46BEABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C80E0843-5174-42F7-8715-86B7E46BEABF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
