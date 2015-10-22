@@ -49,7 +49,6 @@ namespace TreePale
 
 			LblCurrentFileName.Text = "";
 			LblPacketProvider.Text = "";
-			//TxtPacket.Text = "";
 		}
 
 		private void FrmMain_Load(object sender, EventArgs e)
