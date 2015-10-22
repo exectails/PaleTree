@@ -315,7 +315,7 @@ namespace TreePale
 						var time = palePacket.Time.ToString("hh:mm:ss.fff");
 						var packetStr = HexTool.ToString(palePacket.Packet.GetBuffer());
 
-						sw.WriteLine(method + "@" + time + " " + packetStr);
+						sw.WriteLine(method + " " + time + " " + palePacket.OpName + "\t" + packetStr);
 					}
 
 					LblCurrentFileName.Text = Path.GetFileName(SaveLogDialog.FileName);
