@@ -36,6 +36,7 @@
 			this.ColOpName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.ColTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.HexBox = new Be.Windows.Forms.HexBox();
+			this.TxtPacketInfo = new System.Windows.Forms.TextBox();
 			this.ToolBar = new System.Windows.Forms.ToolStrip();
 			this.BtnOpen = new System.Windows.Forms.ToolStripButton();
 			this.BtnSave = new System.Windows.Forms.ToolStripButton();
@@ -67,7 +68,6 @@
 			this.BtnMenuPacketsCopyOp = new System.Windows.Forms.MenuItem();
 			this.BtnMenuPacketsCopyHex = new System.Windows.Forms.MenuItem();
 			this.BtnMenuPacketsFilter = new System.Windows.Forms.MenuItem();
-			this.TxtPacketInfo = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.SplitContainerPackets)).BeginInit();
 			this.SplitContainerPackets.Panel1.SuspendLayout();
 			this.SplitContainerPackets.Panel2.SuspendLayout();
@@ -147,6 +147,18 @@
 			this.HexBox.TabIndex = 1;
 			this.HexBox.UseFixedBytesPerLine = true;
 			this.HexBox.VScrollBarVisible = true;
+			this.HexBox.SelectionStartChanged += new System.EventHandler(this.HexBox_SelectionStartChanged);
+			// 
+			// TxtPacketInfo
+			// 
+			this.TxtPacketInfo.BackColor = System.Drawing.Color.White;
+			this.TxtPacketInfo.Dock = System.Windows.Forms.DockStyle.Top;
+			this.TxtPacketInfo.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.TxtPacketInfo.Location = new System.Drawing.Point(0, 0);
+			this.TxtPacketInfo.Name = "TxtPacketInfo";
+			this.TxtPacketInfo.ReadOnly = true;
+			this.TxtPacketInfo.Size = new System.Drawing.Size(647, 22);
+			this.TxtPacketInfo.TabIndex = 2;
 			// 
 			// ToolBar
 			// 
@@ -392,17 +404,6 @@
 			this.BtnMenuPacketsFilter.Index = 2;
 			this.BtnMenuPacketsFilter.Text = "Add to filter";
 			this.BtnMenuPacketsFilter.Click += new System.EventHandler(this.BtnMenuPacketsFilter_Click);
-			// 
-			// TxtPacketInfo
-			// 
-			this.TxtPacketInfo.BackColor = System.Drawing.Color.White;
-			this.TxtPacketInfo.Dock = System.Windows.Forms.DockStyle.Top;
-			this.TxtPacketInfo.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.TxtPacketInfo.Location = new System.Drawing.Point(0, 0);
-			this.TxtPacketInfo.Name = "TxtPacketInfo";
-			this.TxtPacketInfo.ReadOnly = true;
-			this.TxtPacketInfo.Size = new System.Drawing.Size(647, 22);
-			this.TxtPacketInfo.TabIndex = 2;
 			// 
 			// FrmMain
 			// 

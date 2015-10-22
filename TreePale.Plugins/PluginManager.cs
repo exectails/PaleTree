@@ -44,6 +44,11 @@ namespace TreePale.Plugins
 		event Action<PalePacket> Selected;
 
 		/// <summary>
+		/// Fired when a hex selection changes in logger.
+		/// </summary>
+		event Action<PalePacket, int> SelectedHex;
+
+		/// <summary>
 		/// Adds button to toolbar.
 		/// </summary>
 		/// <param name="icon">Icon for the button</param>

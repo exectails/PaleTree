@@ -43,6 +43,11 @@ namespace TreePale.Plugins
 		public event Action<PalePacket> Selected;
 
 		/// <summary>
+		/// Fired when a hex selection changes in logger.
+		/// </summary>
+		public event Action<PalePacket, int> SelectedHex;
+
+		/// <summary>
 		/// Fired when the packet list is cleared
 		/// </summary>
 		public event Action Clear;
@@ -276,6 +281,31 @@ namespace TreePale.Plugins
 				foreach (var e in evs)
 				{
 					e(palePacket);
+					if (palePacket != null)
+						palePacket.Packet.Rewind();
+				}
+			}
+			catch (Exception ex)
+			{
+				Trace.TraceError(ex.ToString());
+			}
+		}
+
+		/// <summary>
+		/// Fires End event.
+		/// </summary>
+		internal void OnSelectedHex(PalePacket palePacket, int start)
+		{
+			var ev = SelectedHex;
+			if (ev == null)
+				return;
+
+			try
+			{
+				var evs = ev.GetInvocationList().Cast<Action<PalePacket, int>>();
+				foreach (var e in evs)
+				{
+					e(palePacket, start);
 					if (palePacket != null)
 						palePacket.Packet.Rewind();
 				}

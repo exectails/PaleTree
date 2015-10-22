@@ -841,5 +841,24 @@ namespace TreePale
 		{
 			pluginManager.OnReady();
 		}
+
+		/// <summary>
+		/// Fired when the selected byte in the hex control changes.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void HexBox_SelectionStartChanged(object sender, EventArgs e)
+		{
+			PalePacket palePacket = null;
+			int start = -1;
+
+			if (LstPackets.SelectedItems.Count != 0)
+			{
+				palePacket = (PalePacket)LstPackets.SelectedItems[0].Tag;
+				start = (int)HexBox.SelectionStart;
+			}
+
+			pluginManager.OnSelectedHex(palePacket, start);
+		}
 	}
 }
