@@ -246,7 +246,7 @@ namespace TreePale
 		/// <param name="scroll"></param>
 		private void AddPacketToFormList(PalePacket palePacket, bool scroll)
 		{
-			var name = Melia.Shared.Network.Op.GetName(palePacket.Op);
+			var name = Shared.Op.GetName(palePacket.Op);
 
 			var lvi = new ListViewItem((palePacket.Received ? "<" : ">") + palePacket.Op.ToString("X8"));
 			lvi.UseItemStyleForSubItems = false;
@@ -563,7 +563,7 @@ namespace TreePale
 
 				var type = (!recv ? PacketType.ClientServer : PacketType.ServerClient);
 				var packet = new Packet(data, type);
-				var name = Melia.Shared.Network.Op.GetName(packet.Op);
+				var name = Shared.Op.GetName(packet.Op);
 				var palePacket = new PalePacket(name, packet, DateTime.Now, recv);
 
 				lock (packetQueue)

@@ -560,8 +560,8 @@ namespace TreePale.Shared
 			var sb = new StringBuilder();
 			var buffer = _buffer;
 			var length = this.Length;
-			var tableSize = Melia.Shared.Network.Op.GetSize(this.Op);
-			var opName = Melia.Shared.Network.Op.GetName(this.Op);
+			var tableSize = Shared.Op.GetSize(this.Op);
+			var opName = Shared.Op.GetName(this.Op);
 
 			sb.AppendFormat("Op: {0:X4} {1}", this.Op, opName);
 			sb.AppendFormat(", Size: {0}", length);
@@ -580,8 +580,8 @@ namespace TreePale.Shared
 			var sb = new StringBuilder();
 			var buffer = _buffer;
 			var length = this.Length;
-			var tableSize = Melia.Shared.Network.Op.GetSize(this.Op);
-			var opName = Melia.Shared.Network.Op.GetName(this.Op);
+			var tableSize = Shared.Op.GetSize(this.Op);
+			var opName = Shared.Op.GetName(this.Op);
 			//var spacer = "".PadLeft(78, '-');
 
 			//sb.AppendLine(spacer);

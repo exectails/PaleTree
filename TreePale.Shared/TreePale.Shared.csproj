@@ -33,9 +33,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Shared">
-      <HintPath>..\Libs\Shared.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
@@ -52,6 +49,7 @@
     <Compile Include="ListViewNF.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Op.cs" />
     <Compile Include="Packet.cs" />
     <Compile Include="PalePacket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
