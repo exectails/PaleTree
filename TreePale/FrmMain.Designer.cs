@@ -35,7 +35,7 @@
 			this.ColOp = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.ColOpName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.ColTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.TxtPacket = new System.Windows.Forms.TextBox();
+			this.HexBox = new Be.Windows.Forms.HexBox();
 			this.ToolBar = new System.Windows.Forms.ToolStrip();
 			this.BtnOpen = new System.Windows.Forms.ToolStripButton();
 			this.BtnSave = new System.Windows.Forms.ToolStripButton();
@@ -67,6 +67,7 @@
 			this.BtnMenuPacketsCopyOp = new System.Windows.Forms.MenuItem();
 			this.BtnMenuPacketsCopyHex = new System.Windows.Forms.MenuItem();
 			this.BtnMenuPacketsFilter = new System.Windows.Forms.MenuItem();
+			this.TxtPacketInfo = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.SplitContainerPackets)).BeginInit();
 			this.SplitContainerPackets.Panel1.SuspendLayout();
 			this.SplitContainerPackets.Panel2.SuspendLayout();
@@ -89,8 +90,9 @@
 			// 
 			// SplitContainerPackets.Panel2
 			// 
-			this.SplitContainerPackets.Panel2.Controls.Add(this.TxtPacket);
-			this.SplitContainerPackets.Size = new System.Drawing.Size(959, 511);
+			this.SplitContainerPackets.Panel2.Controls.Add(this.HexBox);
+			this.SplitContainerPackets.Panel2.Controls.Add(this.TxtPacketInfo);
+			this.SplitContainerPackets.Size = new System.Drawing.Size(1119, 592);
 			this.SplitContainerPackets.SplitterDistance = 468;
 			this.SplitContainerPackets.TabIndex = 0;
 			// 
@@ -108,7 +110,7 @@
 			this.LstPackets.HideSelection = false;
 			this.LstPackets.Location = new System.Drawing.Point(0, 0);
 			this.LstPackets.Name = "LstPackets";
-			this.LstPackets.Size = new System.Drawing.Size(468, 511);
+			this.LstPackets.Size = new System.Drawing.Size(468, 592);
 			this.LstPackets.TabIndex = 1;
 			this.LstPackets.UseCompatibleStateImageBehavior = false;
 			this.LstPackets.View = System.Windows.Forms.View.Details;
@@ -130,19 +132,21 @@
 			this.ColTime.Text = "Time";
 			this.ColTime.Width = 99;
 			// 
-			// TxtPacket
+			// HexBox
 			// 
-			this.TxtPacket.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.TxtPacket.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.TxtPacket.Location = new System.Drawing.Point(0, 0);
-			this.TxtPacket.Multiline = true;
-			this.TxtPacket.Name = "TxtPacket";
-			this.TxtPacket.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.TxtPacket.Size = new System.Drawing.Size(487, 511);
-			this.TxtPacket.TabIndex = 0;
-			this.TxtPacket.Text = "Op: 0057 BC_SERVER_ENTRY, Size: 18 (Table: 18, Garbage: 0)\r\n\r\n57 00 FF FF FF FF 3" +
-    "4 06  2E D3 34 06 2E D3 29 23 \r\n2A 23";
-			this.TxtPacket.WordWrap = false;
+			this.HexBox.ColumnInfoVisible = true;
+			this.HexBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.HexBox.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.HexBox.LineInfoVisible = true;
+			this.HexBox.Location = new System.Drawing.Point(0, 22);
+			this.HexBox.Name = "HexBox";
+			this.HexBox.ReadOnly = true;
+			this.HexBox.ShadowSelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(60)))), ((int)(((byte)(188)))), ((int)(((byte)(255)))));
+			this.HexBox.Size = new System.Drawing.Size(647, 570);
+			this.HexBox.StringViewVisible = true;
+			this.HexBox.TabIndex = 1;
+			this.HexBox.UseFixedBytesPerLine = true;
+			this.HexBox.VScrollBarVisible = true;
 			// 
 			// ToolBar
 			// 
@@ -160,7 +164,7 @@
 			this.ToolBar.Location = new System.Drawing.Point(0, 0);
 			this.ToolBar.Name = "ToolBar";
 			this.ToolBar.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-			this.ToolBar.Size = new System.Drawing.Size(959, 25);
+			this.ToolBar.Size = new System.Drawing.Size(1119, 25);
 			this.ToolBar.TabIndex = 1;
 			this.ToolBar.Text = "toolStrip1";
 			// 
@@ -251,9 +255,9 @@
             this.LblPacketCount,
             this.LblCurrentFileName,
             this.LblPacketProvider});
-			this.StatusStrip.Location = new System.Drawing.Point(0, 536);
+			this.StatusStrip.Location = new System.Drawing.Point(0, 617);
 			this.StatusStrip.Name = "StatusStrip";
-			this.StatusStrip.Size = new System.Drawing.Size(959, 24);
+			this.StatusStrip.Size = new System.Drawing.Size(1119, 24);
 			this.StatusStrip.TabIndex = 2;
 			this.StatusStrip.Text = "statusStrip1";
 			// 
@@ -389,12 +393,23 @@
 			this.BtnMenuPacketsFilter.Text = "Add to filter";
 			this.BtnMenuPacketsFilter.Click += new System.EventHandler(this.BtnMenuPacketsFilter_Click);
 			// 
+			// TxtPacketInfo
+			// 
+			this.TxtPacketInfo.BackColor = System.Drawing.Color.White;
+			this.TxtPacketInfo.Dock = System.Windows.Forms.DockStyle.Top;
+			this.TxtPacketInfo.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.TxtPacketInfo.Location = new System.Drawing.Point(0, 0);
+			this.TxtPacketInfo.Name = "TxtPacketInfo";
+			this.TxtPacketInfo.ReadOnly = true;
+			this.TxtPacketInfo.Size = new System.Drawing.Size(647, 22);
+			this.TxtPacketInfo.TabIndex = 2;
+			// 
 			// FrmMain
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(959, 560);
+			this.ClientSize = new System.Drawing.Size(1119, 641);
 			this.Controls.Add(this.SplitContainerPackets);
 			this.Controls.Add(this.ToolBar);
 			this.Controls.Add(this.StatusStrip);
@@ -430,7 +445,6 @@
 		private System.Windows.Forms.ColumnHeader ColOp;
 		private System.Windows.Forms.ColumnHeader ColOpName;
 		private System.Windows.Forms.ColumnHeader ColTime;
-		private System.Windows.Forms.TextBox TxtPacket;
 		private System.Windows.Forms.ToolStripButton BtnConnect;
 		private System.Windows.Forms.ToolStripButton BtnDisconnect;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -461,6 +475,8 @@
 		private System.Windows.Forms.MenuItem MenuFileExitSpacer;
 		private System.Windows.Forms.ToolStripStatusLabel LblPacketProvider;
 		private System.Windows.Forms.ToolStripButton BtnConnectTo;
+		private Be.Windows.Forms.HexBox HexBox;
+		private System.Windows.Forms.TextBox TxtPacketInfo;
 	}
 }
 

@@ -14,6 +14,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Be.Windows.Forms;
 
 namespace TreePale
 {
@@ -48,7 +49,7 @@ namespace TreePale
 
 			LblCurrentFileName.Text = "";
 			LblPacketProvider.Text = "";
-			TxtPacket.Text = "";
+			//TxtPacket.Text = "";
 		}
 
 		private void FrmMain_Load(object sender, EventArgs e)
@@ -100,13 +101,15 @@ namespace TreePale
 
 			if (LstPackets.SelectedItems.Count == 0)
 			{
-				TxtPacket.Text = "";
+				TxtPacketInfo.Text = "";
+				HexBox.ByteProvider = null;
 			}
 			else
 			{
 				palePacket = (PalePacket)LstPackets.SelectedItems[0].Tag;
 
-				TxtPacket.Text = palePacket.ToString();
+				TxtPacketInfo.Text = palePacket.Packet.GetPacketInfo();
+				HexBox.ByteProvider = new DynamicByteProvider(palePacket.Packet.GetBuffer());
 			}
 
 			pluginManager.OnSelected(palePacket);
@@ -283,7 +286,8 @@ namespace TreePale
 			LstPackets.Items.Clear();
 			LstPackets.EndUpdate();
 
-			TxtPacket.Text = "";
+			TxtPacketInfo.Text = "";
+			HexBox.ByteProvider = null;
 
 			pluginManager.OnClear();
 
