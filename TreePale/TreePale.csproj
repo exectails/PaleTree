@@ -71,8 +71,8 @@
     <ApplicationIcon>icon2.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Shared">
-      <HintPath>..\Libs\Shared.dll</HintPath>
+    <Reference Include="Be.Windows.Forms.HexBox">
+      <HintPath>..\Libs\Be.Windows.Forms.HexBox.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />

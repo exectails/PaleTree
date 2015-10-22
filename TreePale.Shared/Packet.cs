@@ -552,6 +552,26 @@ namespace TreePale.Shared
 		}
 
 		/// <summary>
+		/// Returns info about packet as string.
+		/// </summary>
+		/// <returns></returns>
+		public string GetPacketInfo()
+		{
+			var sb = new StringBuilder();
+			var buffer = _buffer;
+			var length = this.Length;
+			var tableSize = Shared.Op.GetSize(this.Op);
+			var opName = Shared.Op.GetName(this.Op);
+
+			sb.AppendFormat("Op: {0:X4} {1}", this.Op, opName);
+			sb.AppendFormat(", Size: {0}", length);
+			if (tableSize != 0)
+				sb.AppendFormat(" (Table: {0}, Garbage: {1})", tableSize, length - tableSize);
+
+			return sb.ToString();
+		}
+
+		/// <summary>
 		/// Returns buffer as formatted hex string.
 		/// </summary>
 		/// <returns></returns>
@@ -560,8 +580,8 @@ namespace TreePale.Shared
 			var sb = new StringBuilder();
 			var buffer = _buffer;
 			var length = this.Length;
-			var tableSize = Melia.Shared.Network.Op.GetSize(this.Op);
-			var opName = Melia.Shared.Network.Op.GetName(this.Op);
+			var tableSize = Shared.Op.GetSize(this.Op);
+			var opName = Shared.Op.GetName(this.Op);
 			//var spacer = "".PadLeft(78, '-');
 
 			//sb.AppendLine(spacer);

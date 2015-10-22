@@ -14,6 +14,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Be.Windows.Forms;
 
 namespace TreePale
 {
@@ -48,7 +49,6 @@ namespace TreePale
 
 			LblCurrentFileName.Text = "";
 			LblPacketProvider.Text = "";
-			TxtPacket.Text = "";
 		}
 
 		private void FrmMain_Load(object sender, EventArgs e)
@@ -100,13 +100,15 @@ namespace TreePale
 
 			if (LstPackets.SelectedItems.Count == 0)
 			{
-				TxtPacket.Text = "";
+				TxtPacketInfo.Text = "";
+				HexBox.ByteProvider = null;
 			}
 			else
 			{
 				palePacket = (PalePacket)LstPackets.SelectedItems[0].Tag;
 
-				TxtPacket.Text = palePacket.ToString();
+				TxtPacketInfo.Text = palePacket.Packet.GetPacketInfo();
+				HexBox.ByteProvider = new DynamicByteProvider(palePacket.Packet.GetBuffer());
 			}
 
 			pluginManager.OnSelected(palePacket);
@@ -244,7 +246,7 @@ namespace TreePale
 		/// <param name="scroll"></param>
 		private void AddPacketToFormList(PalePacket palePacket, bool scroll)
 		{
-			var name = Melia.Shared.Network.Op.GetName(palePacket.Op);
+			var name = Shared.Op.GetName(palePacket.Op);
 
 			var lvi = new ListViewItem((palePacket.Received ? "<" : ">") + palePacket.Op.ToString("X8"));
 			lvi.UseItemStyleForSubItems = false;
@@ -283,7 +285,8 @@ namespace TreePale
 			LstPackets.Items.Clear();
 			LstPackets.EndUpdate();
 
-			TxtPacket.Text = "";
+			TxtPacketInfo.Text = "";
+			HexBox.ByteProvider = null;
 
 			pluginManager.OnClear();
 
@@ -560,7 +563,7 @@ namespace TreePale
 
 				var type = (!recv ? PacketType.ClientServer : PacketType.ServerClient);
 				var packet = new Packet(data, type);
-				var name = Melia.Shared.Network.Op.GetName(packet.Op);
+				var name = Shared.Op.GetName(packet.Op);
 				var palePacket = new PalePacket(name, packet, DateTime.Now, recv);
 
 				lock (packetQueue)
@@ -837,6 +840,25 @@ namespace TreePale
 		private void FrmMain_Shown(object sender, EventArgs e)
 		{
 			pluginManager.OnReady();
+		}
+
+		/// <summary>
+		/// Fired when the selected byte in the hex control changes.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void HexBox_SelectionStartChanged(object sender, EventArgs e)
+		{
+			PalePacket palePacket = null;
+			int start = -1;
+
+			if (LstPackets.SelectedItems.Count != 0)
+			{
+				palePacket = (PalePacket)LstPackets.SelectedItems[0].Tag;
+				start = (int)HexBox.SelectionStart;
+			}
+
+			pluginManager.OnSelectedHex(palePacket, start);
 		}
 	}
 }

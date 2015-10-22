@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreePale.Plugins", "TreePal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreePale.Shared", "TreePale.Shared\TreePale.Shared.csproj", "{C80E0843-5174-42F7-8715-86B7E46BEABF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreePale.Plugins.VariablePreview", "TreePale.Plugins.VariablePreview\TreePale.Plugins.VariablePreview.csproj", "{F1E550BC-A28F-42D7-A4A1-3EC97AA20F0A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C80E0843-5174-42F7-8715-86B7E46BEABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C80E0843-5174-42F7-8715-86B7E46BEABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C80E0843-5174-42F7-8715-86B7E46BEABF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1E550BC-A28F-42D7-A4A1-3EC97AA20F0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1E550BC-A28F-42D7-A4A1-3EC97AA20F0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1E550BC-A28F-42D7-A4A1-3EC97AA20F0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1E550BC-A28F-42D7-A4A1-3EC97AA20F0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
