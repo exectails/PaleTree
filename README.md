@@ -1,7 +1,7 @@
-TreePale
+PaleTree
 ==============================
 
-TreePale is a packet logger for the online-game Tree of Savior.
+PaleTree is a packet logger for the online-game Tree of Savior.
 
 Pale requires a packet provider that sends the packets to it via WM_COPY.
 A valid candidate is Gesti, a kind of proxy for ToS.
@@ -14,4 +14,4 @@ in this repository.
 
 Links
 ------------------------------
-* GitHub: https://github.com/exectails/TreePale
+* GitHub: https://github.com/exectails/PaleTree

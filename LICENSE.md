@@ -4,7 +4,7 @@
 
 Creative Commons CC BY-SA: http://creativecommons.org/licenses/by-sa/3.0/legalcode
 
-##TreePale
+##PaleTree
 
 (c) 2015 exec, http://aura-project.org
 
