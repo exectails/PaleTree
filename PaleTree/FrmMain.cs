@@ -107,7 +107,7 @@ namespace PaleTree
 			{
 				palePacket = (PalePacket)LstPackets.SelectedItems[0].Tag;
 
-				TxtPacketInfo.Text = palePacket.Packet.GetPacketInfo();
+				TxtPacketInfo.Text = palePacket.GetPacketInfo();
 				HexBox.ByteProvider = new DynamicByteProvider(palePacket.Packet.GetBuffer());
 			}
 
@@ -184,29 +184,51 @@ namespace PaleTree
 			using (var sr = new StreamReader(path))
 			{
 				string line;
-				while ((line = sr.ReadLine()) != null)
+				for (int ln = 1; (line = sr.ReadLine()) != null; ++ln)
 				{
-					line = line.Trim();
-					var recv = false;
+					try
+					{
+						line = line.Trim();
+						var recv = false;
 
-					if (string.IsNullOrWhiteSpace(line) || (!line.StartsWith("Send ") && !(recv = line.StartsWith("Recv "))))
-						continue;
+						if (string.IsNullOrWhiteSpace(line) || (!line.StartsWith("Send ") && !(recv = line.StartsWith("Recv "))))
+							continue;
 
-					var tabIndex = line.IndexOf('\t');
-					var split = line.Substring(0, tabIndex).Split(' ');
-					if (split.Length != 3)
-						continue;
+						var tabIndex = line.IndexOf('\t');
+						var split = line.Substring(0, tabIndex).Split(' ');
 
-					var type = (split[0] == "Send" ? PacketType.ClientServer : PacketType.ServerClient);
-					var date = DateTime.Parse(split[1]);
-					var name = split[2];
+						PacketType type;
+						DateTime date;
+						string name;
+						int length = -1;
 
-					var packetStr = line.Substring(tabIndex + 1, line.Length - tabIndex - 1);
-					var packetArr = HexTool.ToByteArray(packetStr);
-					var packet = new Packet(packetArr, type);
-					var palePacket = new PalePacket(name, packet, date, recv);
+						if (split.Length == 3)
+						{
+							type = (split[0] == "Send" ? PacketType.ClientServer : PacketType.ServerClient);
+							date = DateTime.Parse(split[1]);
+							name = split[2];
+						}
+						else if (split.Length == 4)
+						{
+							type = (split[0] == "Send" ? PacketType.ClientServer : PacketType.ServerClient);
+							date = DateTime.Parse(split[1]);
+							name = split[2];
+							length = Convert.ToInt32(split[3]);
+						}
+						else
+							continue;
 
-					newPackets.Insert(0, palePacket);
+						var packetStr = line.Substring(tabIndex + 1, line.Length - tabIndex - 1);
+						var packetArr = HexTool.ToByteArray(packetStr);
+						var packet = new Packet(packetArr, type);
+						var palePacket = new PalePacket(name, length, packet, date, recv);
+
+						newPackets.Insert(0, palePacket);
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show("Error on line " + ln + ": " + ex.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					}
 				}
 			}
 
@@ -246,7 +268,7 @@ namespace PaleTree
 		/// <param name="scroll"></param>
 		private void AddPacketToFormList(PalePacket palePacket, bool scroll)
 		{
-			var name = Shared.Op.GetName(palePacket.Op);
+			var name = palePacket.OpName;
 
 			var lvi = new ListViewItem((palePacket.Received ? "<" : ">") + palePacket.Op.ToString("X8"));
 			lvi.UseItemStyleForSubItems = false;
@@ -317,8 +339,10 @@ namespace PaleTree
 						var method = palePacket.Received ? "Recv" : "Send";
 						var time = palePacket.Time.ToString("hh:mm:ss.fff");
 						var packetStr = HexTool.ToString(palePacket.Packet.GetBuffer());
+						var name = palePacket.OpName;
+						var size = palePacket.OpSize;
 
-						sw.WriteLine(method + " " + time + " " + palePacket.OpName + "\t" + packetStr);
+						sw.WriteLine(method + " " + time + " " + name + " " + size + "\t" + packetStr);
 					}
 
 					LblCurrentFileName.Text = Path.GetFileName(SaveLogDialog.FileName);
@@ -564,7 +588,8 @@ namespace PaleTree
 				var type = (!recv ? PacketType.ClientServer : PacketType.ServerClient);
 				var packet = new Packet(data, type);
 				var name = Shared.Op.GetName(packet.Op);
-				var palePacket = new PalePacket(name, packet, DateTime.Now, recv);
+				var length = Shared.Op.GetSize(packet.Op);
+				var palePacket = new PalePacket(name, length, packet, DateTime.Now, recv);
 
 				lock (packetQueue)
 					packetQueue.Enqueue(palePacket);
