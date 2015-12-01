@@ -129,7 +129,7 @@
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(157, 63);
 			this.label1.TabIndex = 7;
-			this.label1.Text = "PaleTree requires a packet provider such as Gesti.";
+			this.label1.Text = "PaleTree requires a packet provider such as Zemyna.";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// FrmAbout
