@@ -4,7 +4,7 @@ PaleTree
 PaleTree is a packet logger for the online-game Tree of Savior.
 
 Pale requires a packet provider that sends the packets to it via WM_COPY.
-A valid candidate is Gesti, a kind of proxy for ToS.
+A valid candidate is [Zemyna](https://github.com/exectails/Zemyna), a kind of proxy for ToS.
 
 Plugins
 ------------------------------
