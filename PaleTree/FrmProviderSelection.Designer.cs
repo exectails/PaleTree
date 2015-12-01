@@ -1,6 +1,6 @@
 ﻿namespace PaleTree
 {
-	partial class FrmAlissaSelection
+	partial class FrmProviderSelection
 	{
 		/// <summary>
 		/// Required designer variable.
@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmAlissaSelection));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmProviderSelection));
 			this.CboWindows = new System.Windows.Forms.ComboBox();
 			this.BtnConnect = new System.Windows.Forms.Button();
 			this.BtnCancel = new System.Windows.Forms.Button();

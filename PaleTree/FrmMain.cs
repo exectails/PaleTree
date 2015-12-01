@@ -22,7 +22,7 @@ namespace PaleTree
 	{
 		private PluginManager pluginManager;
 
-		private IntPtr alissaHWnd;
+		private IntPtr providerHWnd;
 
 		private Queue<PalePacket> packetQueue;
 		private System.Timers.Timer queueTimer;
@@ -437,11 +437,11 @@ namespace PaleTree
 		}
 
 		/// <summary>
-		/// Connect button, sends connect message to Alissa window.
+		/// Connect button, sends connect message to provider window.
 		/// </summary>
 		private void BtnConnect_Click(object sender, EventArgs e)
 		{
-			if (alissaHWnd == IntPtr.Zero)
+			if (providerHWnd == IntPtr.Zero)
 			{
 				if (!SelectPacketProvider(true))
 					return;
@@ -464,19 +464,19 @@ namespace PaleTree
 		}
 
 		/// <summary>
-		/// Connects to the Alissa window.
+		/// Connects to the provider window.
 		/// </summary>
 		private void Connect()
 		{
-			if (!WinApi.IsWindow(alissaHWnd))
+			if (!WinApi.IsWindow(providerHWnd))
 			{
 				//MessageBox.Show("Failed to connect, please make sure the selected packet provider is still running.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-				alissaHWnd = IntPtr.Zero;
+				providerHWnd = IntPtr.Zero;
 				BtnConnect_Click(null, null);
 				return;
 			}
 
-			SendAlissa(alissaHWnd, Sign.Connect);
+			SendMessage(providerHWnd, Sign.Connect);
 
 			BtnConnect.Enabled = false;
 			BtnConnectTo.Enabled = false;
@@ -493,35 +493,35 @@ namespace PaleTree
 		/// <returns></returns>
 		private bool SelectPacketProvider(bool selectSingle)
 		{
-			var alissaWindows = WinApi.FindAllWindows("mod_Alissa");
+			var windows = WinApi.FindAllWindows("mod_Tossa");
 			FoundWindow window = null;
 
-			if (alissaWindows.Count == 0)
+			if (windows.Count == 0)
 			{
 				MessageBox.Show("No packet provider found.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 			}
-			else if (selectSingle && alissaWindows.Count == 1)
+			else if (selectSingle && windows.Count == 1)
 			{
-				window = alissaWindows[0];
+				window = windows[0];
 			}
 			else
 			{
-				var form = new FrmAlissaSelection(alissaWindows, LblPacketProvider.Text);
+				var form = new FrmProviderSelection(windows, LblPacketProvider.Text);
 				if (form.ShowDialog() == DialogResult.Cancel)
 					return false;
 
-				window = FrmAlissaSelection.Selection;
+				window = FrmProviderSelection.Selection;
 			}
 
-			alissaHWnd = window.HWnd;
+			providerHWnd = window.HWnd;
 			LblPacketProvider.Text = window.ClassName;
 
 			return true;
 		}
 
 		/// <summary>
-		/// Disonnect button, sends disconnect message to Alissa window.
+		/// Disonnect button, sends disconnect message to provider window.
 		/// </summary>
 		private void BtnDisconnect_Click(object sender, EventArgs e)
 		{
@@ -529,12 +529,12 @@ namespace PaleTree
 		}
 
 		/// <summary>
-		/// Sends disconnect message to Alissa window.
+		/// Sends disconnect message to provider window.
 		/// </summary>
 		private void Disconnect()
 		{
-			if (alissaHWnd != IntPtr.Zero)
-				SendAlissa(alissaHWnd, Sign.Disconnect);
+			if (providerHWnd != IntPtr.Zero)
+				SendMessage(providerHWnd, Sign.Disconnect);
 
 			this.InvokeIfRequired((MethodInvoker)delegate
 			{
@@ -547,11 +547,11 @@ namespace PaleTree
 		}
 
 		/// <summary>
-		/// Sends message to Alissa window.
+		/// Sends message to provider window.
 		/// </summary>
 		/// <param name="hWnd"></param>
 		/// <param name="op"></param>
-		private void SendAlissa(IntPtr hWnd, int op)
+		private void SendMessage(IntPtr hWnd, int op)
 		{
 			WinApi.COPYDATASTRUCT cds;
 			cds.dwData = (IntPtr)op;
@@ -568,7 +568,7 @@ namespace PaleTree
 		}
 
 		/// <summary>
-		/// Window message handler, handles incoming data from Alissa.
+		/// Window message handler, handles incoming data from provider.
 		/// </summary>
 		/// <param name="m"></param>
 		protected override void WndProc(ref Message m)
@@ -619,7 +619,7 @@ namespace PaleTree
 		/// <param name="state"></param>
 		private void OnQueueTimer(object state, EventArgs args)
 		{
-			if (!WinApi.IsWindow(alissaHWnd))
+			if (!WinApi.IsWindow(providerHWnd))
 				Disconnect();
 
 			var count = packetQueue.Count;

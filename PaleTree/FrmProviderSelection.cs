@@ -9,11 +9,11 @@ using System.Windows.Forms;
 
 namespace PaleTree
 {
-	public partial class FrmAlissaSelection : Form
+	public partial class FrmProviderSelection : Form
 	{
 		public static FoundWindow Selection;
 
-		public FrmAlissaSelection(IList<FoundWindow> windows, string current)
+		public FrmProviderSelection(IList<FoundWindow> windows, string current)
 		{
 			InitializeComponent();
 

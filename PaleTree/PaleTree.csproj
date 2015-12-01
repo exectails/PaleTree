@@ -93,11 +93,11 @@
     <Compile Include="FrmAbout.Designer.cs">
       <DependentUpon>FrmAbout.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmAlissaSelection.cs">
+    <Compile Include="FrmProviderSelection.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmAlissaSelection.Designer.cs">
-      <DependentUpon>FrmAlissaSelection.cs</DependentUpon>
+    <Compile Include="FrmProviderSelection.Designer.cs">
+      <DependentUpon>FrmProviderSelection.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
@@ -120,8 +120,8 @@
     <EmbeddedResource Include="FrmAbout.resx">
       <DependentUpon>FrmAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmAlissaSelection.resx">
-      <DependentUpon>FrmAlissaSelection.cs</DependentUpon>
+    <EmbeddedResource Include="FrmProviderSelection.resx">
+      <DependentUpon>FrmProviderSelection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
