@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Be.Windows.Forms;
+using System.Reflection;
 
 namespace PaleTree
 {
@@ -405,13 +406,13 @@ namespace PaleTree
 			lock (recvFilter)
 			{
 				recvFilter.Clear();
-				ReadStringIntList(Settings.Default.FilterRecv, ref recvFilter);
+				ReadOpList(Settings.Default.FilterRecv, ref recvFilter);
 			}
 
 			lock (sendFilter)
 			{
 				sendFilter.Clear();
-				ReadStringIntList(Settings.Default.FilterSend, ref sendFilter);
+				ReadOpList(Settings.Default.FilterSend, ref sendFilter);
 			}
 		}
 
@@ -420,18 +421,24 @@ namespace PaleTree
 		/// </summary>
 		/// <param name="list"></param>
 		/// <param name="set"></param>
-		private void ReadStringIntList(string list, ref HashSet<int> set)
+		private void ReadOpList(string list, ref HashSet<int> set)
 		{
 			using (var sr = new StringReader(list))
 			{
 				var line = "";
 				while ((line = sr.ReadLine()) != null)
 				{
-					line = line.Trim().Replace("0x", "");
+					line = line.Trim();
 
-					int op;
-					if (int.TryParse(line, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out op))
-						set.Add(op);
+					var field = typeof(Op).GetField(line, BindingFlags.Public | BindingFlags.Static);
+					if (field == null)
+					{
+						Trace.TraceError("Filter: Unknown op '{0}'.", line);
+						continue;
+					}
+
+					var op = (int)field.GetValue(null);
+					set.Add(op);
 				}
 			}
 		}
