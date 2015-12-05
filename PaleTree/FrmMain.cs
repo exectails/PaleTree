@@ -28,7 +28,7 @@ namespace PaleTree
 		private Queue<PalePacket> packetQueue;
 		private System.Timers.Timer queueTimer;
 
-		private HashSet<int> recvFilter, sendFilter;
+		private HashSet<string> recvFilter, sendFilter;
 
 		private StringWriter log;
 
@@ -45,8 +45,8 @@ namespace PaleTree
 			queueTimer.Interval = 250;
 			queueTimer.Elapsed += OnQueueTimer;
 
-			recvFilter = new HashSet<int>();
-			sendFilter = new HashSet<int>();
+			recvFilter = new HashSet<string>();
+			sendFilter = new HashSet<string>();
 
 			LblCurrentFileName.Text = "";
 			LblPacketProvider.Text = "";
@@ -421,7 +421,7 @@ namespace PaleTree
 		/// </summary>
 		/// <param name="list"></param>
 		/// <param name="set"></param>
-		private void ReadOpList(string list, ref HashSet<int> set)
+		private void ReadOpList(string list, ref HashSet<string> set)
 		{
 			using (var sr = new StringReader(list))
 			{
@@ -429,6 +429,8 @@ namespace PaleTree
 				while ((line = sr.ReadLine()) != null)
 				{
 					line = line.Trim();
+					if (string.IsNullOrWhiteSpace(line) || line.StartsWith("//"))
+						continue;
 
 					var field = typeof(Op).GetField(line, BindingFlags.Public | BindingFlags.Static);
 					if (field == null)
@@ -437,8 +439,7 @@ namespace PaleTree
 						continue;
 					}
 
-					var op = (int)field.GetValue(null);
-					set.Add(op);
+					set.Add(line);
 				}
 			}
 		}
@@ -656,11 +657,11 @@ namespace PaleTree
 				foreach (var palePacket in newPackets)
 				{
 					lock (recvFilter)
-						if (Settings.Default.FilterRecvEnabled && recvFilter.Contains(palePacket.Op))
+						if (Settings.Default.FilterRecvEnabled && recvFilter.Contains(palePacket.OpName))
 							continue;
 
 					lock (sendFilter)
-						if (Settings.Default.FilterSendEnabled && sendFilter.Contains(palePacket.Op))
+						if (Settings.Default.FilterSendEnabled && sendFilter.Contains(palePacket.OpName))
 							continue;
 
 					AddPacketToFormList(palePacket, true);
@@ -833,7 +834,7 @@ namespace PaleTree
 				{
 					lock (recvFilter)
 					{
-						if (recvFilter.Contains(palePacket.Op))
+						if (recvFilter.Contains(palePacket.OpName))
 							toRemove.Add(i);
 					}
 				}
@@ -841,7 +842,7 @@ namespace PaleTree
 				{
 					lock (sendFilter)
 					{
-						if (sendFilter.Contains(palePacket.Op))
+						if (sendFilter.Contains(palePacket.OpName))
 							toRemove.Add(i);
 					}
 				}
