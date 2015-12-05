@@ -584,7 +584,9 @@ namespace PaleTree
 			{
 				var cds = (WinApi.COPYDATASTRUCT)Marshal.PtrToStructure(m.LParam, typeof(WinApi.COPYDATASTRUCT));
 
-				if (cds.cbData < 12)
+				// The op will *always* be there, who knows about the
+				// other things.
+				if (cds.cbData < 2)
 					return;
 
 				var recv = (int)cds.dwData == Sign.Recv;
