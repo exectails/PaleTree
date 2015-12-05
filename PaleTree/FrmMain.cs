@@ -769,7 +769,7 @@ namespace PaleTree
 			if (result == DialogResult.Cancel)
 				return;
 
-			var addition = Environment.NewLine + selected.Op.ToString("X8") + Environment.NewLine;
+			var addition = Environment.NewLine + selected.OpName + Environment.NewLine;
 
 			if (selected.Received)
 				Settings.Default.FilterRecv += addition;
