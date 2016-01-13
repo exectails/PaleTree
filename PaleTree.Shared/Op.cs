@@ -500,7 +500,7 @@ namespace PaleTree.Shared
 		public const int ZC_HELP_ADD = 0xDA9; // Size: 11
 		public const int CZ_CLIENT_HIT_LIST = 0xDAA; // Size: 0
 		public const int ZC_PC_ATKSTATE = 0xDAB; // Size: 11
-		public const int ZC_SEND_PREMIUM_STATE = 0xDAC; // Size: 8
+		public const int ZC_SEND_PREMIUM_STATE = 0xDAC; // Size: 12
 		public const int CZ_HELP_READ_TYPE = 0xDAD; // Size: 18
 		public const int CZ_MOVE_PATH_END = 0xDAE; // Size: 10
 		public const int ZC_COLL_DAMAGE = 0xDAF; // Size: 11
@@ -619,6 +619,7 @@ namespace PaleTree.Shared
 		public const int CZ_PARTY_MEMBER_SKILL_ACCEPT = 0xE20; // Size: 22
 		public const int CZ_SYSTEM_LOG_TO_SERVER = 0xE21; // Size: 1099
 		public const int CZ_CHECK_PING = 0xE22; // Size: 10
+		public const int CZ_CANCEL_INDUN_MATCHING = 0xE23; // Size: 10
 
 		private static Dictionary<int, int> _sizes = new Dictionary<int, int>();
 
@@ -1116,7 +1117,7 @@ namespace PaleTree.Shared
 			_sizes[Op.ZC_HELP_ADD] = 11;
 			_sizes[Op.CZ_CLIENT_HIT_LIST] = 0;
 			_sizes[Op.ZC_PC_ATKSTATE] = 11;
-			_sizes[Op.ZC_SEND_PREMIUM_STATE] = 8;
+			_sizes[Op.ZC_SEND_PREMIUM_STATE] = 12;
 			_sizes[Op.CZ_HELP_READ_TYPE] = 18;
 			_sizes[Op.CZ_MOVE_PATH_END] = 10;
 			_sizes[Op.ZC_COLL_DAMAGE] = 11;
@@ -1235,6 +1236,7 @@ namespace PaleTree.Shared
 			_sizes[Op.CZ_PARTY_MEMBER_SKILL_ACCEPT] = 22;
 			_sizes[Op.CZ_SYSTEM_LOG_TO_SERVER] = 1099;
 			_sizes[Op.CZ_CHECK_PING] = 10;
+			_sizes[Op.CZ_CANCEL_INDUN_MATCHING] = 10;
 		}
 
 		public static int GetSize(int op)
