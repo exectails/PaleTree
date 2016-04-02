@@ -656,13 +656,16 @@ namespace PaleTree
 				LstPackets.BeginUpdate();
 				foreach (var palePacket in newPackets)
 				{
+                    Boolean isFilter;
 					lock (recvFilter)
-						if (Settings.Default.FilterRecvEnabled && recvFilter.Contains(palePacket.OpName))
-							continue;
+                        isFilter = Settings.Default.FilterRecvInvertedEnabled ? !recvFilter.Contains(palePacket.OpName) : recvFilter.Contains(palePacket.OpName);
+                        if (Settings.Default.FilterRecvEnabled && isFilter)
+                            continue;
 
 					lock (sendFilter)
-						if (Settings.Default.FilterSendEnabled && sendFilter.Contains(palePacket.OpName))
-							continue;
+                        isFilter = Settings.Default.FilterSendInvertedEnabled ? !sendFilter.Contains(palePacket.OpName) : sendFilter.Contains(palePacket.OpName);
+                        if (Settings.Default.FilterSendEnabled && isFilter)
+                            continue;
 
 					AddPacketToFormList(palePacket, true);
 

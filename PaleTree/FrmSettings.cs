@@ -36,7 +36,9 @@ namespace PaleTree
 		{
 			ChkFilterRecvEnabled.Checked = Settings.Default.FilterRecvEnabled;
 			ChkFilterSendEnabled.Checked = Settings.Default.FilterSendEnabled;
-			TxtFilterRecv.Text = Regex.Replace(Settings.Default.FilterRecv.TrimStart(), "\r?\n\r?\n", Environment.NewLine);
+            ChkFilterRecvInvertedEnabled.Checked = Settings.Default.FilterRecvInvertedEnabled;
+            ChkFilterSendInvertedEnabled.Checked = Settings.Default.FilterSendInvertedEnabled;
+            TxtFilterRecv.Text = Regex.Replace(Settings.Default.FilterRecv.TrimStart(), "\r?\n\r?\n", Environment.NewLine);
 			TxtFilterSend.Text = Regex.Replace(Settings.Default.FilterSend.TrimStart(), "\r?\n\r?\n", Environment.NewLine);
 		}
 
@@ -44,7 +46,9 @@ namespace PaleTree
 		{
 			Settings.Default.FilterRecvEnabled = ChkFilterRecvEnabled.Checked;
 			Settings.Default.FilterSendEnabled = ChkFilterSendEnabled.Checked;
-			Settings.Default.FilterRecv = TxtFilterRecv.Text;
+            Settings.Default.FilterRecvInvertedEnabled = ChkFilterRecvInvertedEnabled.Checked;
+            Settings.Default.FilterSendInvertedEnabled = ChkFilterSendInvertedEnabled.Checked;
+            Settings.Default.FilterRecv = TxtFilterRecv.Text;
 			Settings.Default.FilterSend = TxtFilterSend.Text;
 			Settings.Default.Save();
 		}
