@@ -87,7 +87,39 @@ namespace PaleTree.Properties {
                 this["FilterSendEnabled"] = value;
             }
         }
-        
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FilterRecvInvertedEnabled
+        {
+            get
+            {
+                return ((bool)(this["FilterRecvInvertedEnabled"]));
+            }
+            set
+            {
+                this["FilterRecvInvertedEnabled"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableSettingsProvider))]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FilterSendInvertedEnabled
+        {
+            get
+            {
+                return ((bool)(this["FilterSendInvertedEnabled"]));
+            }
+            set
+            {
+                this["FilterSendInvertedEnabled"] = value;
+            }
+        }
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
