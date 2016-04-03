@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C80E0843-5174-42F7-8715-86B7E46BEABF}</ProjectGuid>
+    <ProjectGuid>{D1C5D49E-1B9B-4343-A48D-B70D1E6542F2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PaleTree.Shared</RootNamespace>
-    <AssemblyName>PaleTree.Shared</AssemblyName>
+    <RootNamespace>PaleTree.Plugins.EntityLogger</RootNamespace>
+    <AssemblyName>EntityLogger</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\PaleTree\bin\Debug\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\PaleTree\bin\Release\Plugins\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,19 +44,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControlExtension.cs" />
-    <Compile Include="HexTool.cs" />
-    <Compile Include="ListViewColumnSorter.cs" />
-    <Compile Include="ListViewNF.cs">
-      <SubType>Component</SubType>
+    <Compile Include="Location.cs" />
+    <Compile Include="Direction.cs" />
+    <Compile Include="Position.cs" />
+    <Compile Include="Monster.cs" />
+    <Compile Include="FrmEntityLogger.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Math2.cs" />
-    <Compile Include="NPC.cs" />
-    <Compile Include="Op.cs" />
-    <Compile Include="Packet.cs" />
-    <Compile Include="PalePacket.cs" />
+    <Compile Include="FrmEntityLogger.Designer.cs">
+      <DependentUpon>FrmEntityLogger.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IEntity.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringBuilderExtension.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FrmEntityLogger.resx">
+      <DependentUpon>FrmEntityLogger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bug.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PaleTree.Plugins\PaleTree.Plugins.csproj">
+      <Project>{694421c4-7979-4440-a917-3712c926aa2b}</Project>
+      <Name>PaleTree.Plugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PaleTree.Shared\PaleTree.Shared.csproj">
+      <Project>{c80e0843-5174-42f7-8715-86b7e46beabf}</Project>
+      <Name>PaleTree.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
