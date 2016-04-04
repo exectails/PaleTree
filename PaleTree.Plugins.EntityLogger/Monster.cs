@@ -1,9 +1,13 @@
-﻿using PaleTree.Shared;
-using PaleTree.Shared.Util;
+﻿using Melia.Shared.Const;
+using Melia.Shared.Data.Database;
+using Melia.Shared.Util;
+using PaleTree.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace PaleTree.Plugins.EntityLogger
 {
@@ -133,7 +137,7 @@ namespace PaleTree.Plugins.EntityLogger
 			sb.AppendLine("Position: X:{0:0}, Y:{1:0}, Z:{2:0}", this.Position.X, this.Position.Y, this.Position.Z);
 			sb.AppendLine("Direction: {0:0}", this.Direction.ToDegree());
 			sb.AppendLine();
-
+			
 			return sb.ToString();
 		}
 
@@ -155,15 +159,42 @@ namespace PaleTree.Plugins.EntityLogger
 					}
 				}
 
+				if(DBUtils.IsMeliaFolderEnable()) 
+				{
+					Main.Data.MapDb.Find("12");
+				}
+
 				sb.Append("addWarp(");
 				sb.Append("\"{0}\", {1:0}, ", this.WarpName, this.Direction.ToDegree());
-				sb.Append("\"{0}\", {1:0}, {2:0}, {3:0}, ", this.Name, this.Position.X, this.Position.Y, this.Position.Z);
-				sb.Append("\"{0}\", {1:0}, {2:0}, {3:0}", pairWarp.Name, pairWarp.Position.X + 50, pairWarp.Position.Y + 50, pairWarp.Position.Z + 50);
+				sb.Append("\"{0}\", {1:0}, {2:0}, {3:0}, ", GetMapClassName(this.Name), this.Position.X, this.Position.Y, this.Position.Z);
+				sb.Append("\"{0}\", {1:0}, {2:0}, {3:0}", GetMapClassName(pairWarp.Name), pairWarp.Position.X + 50, pairWarp.Position.Y + 50, pairWarp.Position.Z + 50);
 				sb.Append(")");
 				sb.AppendLine();
 			}
 
 			return sb.ToString();
+		}
+
+		private string GetMapClassName(string localKey)
+		{
+			var dollarIdx = localKey.IndexOf("$");
+			var lastDollarIdx = localKey.LastIndexOf("$");
+
+			if (dollarIdx > -1 && lastDollarIdx > -1)
+			{
+				var extractedlocalKey = localKey.Substring(dollarIdx + 1, lastDollarIdx - dollarIdx - 1);
+
+				if (Main.Data.MapDb is CustomMapDb)
+				{
+					var mapDb = (CustomMapDb) Main.Data.MapDb;
+					MapData mapData = mapDb.Find(extractedlocalKey);
+					if (mapData != null)
+					{
+						return mapData.ClassName;
+					}
+				}
+			}
+			return localKey;
 		}
 
 		public override bool Equals(object obj)

@@ -1,8 +1,12 @@
-﻿using PaleTree.Plugins.EntityLogger.Properties;
+﻿using Melia.Shared.Const;
+using Melia.Shared.Data;
+using PaleTree.Plugins.EntityLogger.Properties;
 using PaleTree.Shared;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace PaleTree.Plugins.EntityLogger
 {
@@ -11,6 +15,8 @@ namespace PaleTree.Plugins.EntityLogger
 		private List<IEntity> entities;
 
 		private FrmEntityLogger form;
+
+		public static MeliaData Data { get; private set; }
 
 		public override string Name
 		{
@@ -30,6 +36,10 @@ namespace PaleTree.Plugins.EntityLogger
 
 			manager.Recv += OnRecv;
 			manager.Clear += OnClear;
+			Main.Data = new MeliaData();
+			Main.Data.MapDb = new CustomMapDb();
+			if (DBUtils.IsMeliaFolderEnable())
+				DBUtils.LoadData(Settings.Default.FolderMelia, Main.Data, DBUtils.DataToLoad.All, true);
 		}
 
 		private void OnClick(object sender, EventArgs e)
@@ -109,15 +119,15 @@ namespace PaleTree.Plugins.EntityLogger
 			monster.Direction = new Direction(dx, dy);
 
 			monster.Hp = monsterHp;
-			monster.MaxHp = monsterMaxHp; 
+			monster.MaxHp = monsterMaxHp;
 			monster.Level = level;
 			monster.SDR = sdr;
 
 			monster.Name = name;
 			monster.DialogName = dialogName;
 			monster.WarpName = warpName;
-			AddEntity(monster);			
-		}		
+			AddEntity(monster);
+		}
 
 		private void AddEntity(Monster entity)
 		{
@@ -126,7 +136,7 @@ namespace PaleTree.Plugins.EntityLogger
 
 			lock (entities)
 				entity.Entities = entities;
-				entities.Add(entity);
+			entities.Add(entity);
 
 			if (form != null && !form.IsDisposed)
 				form.AddEntity(entity);
@@ -136,6 +146,6 @@ namespace PaleTree.Plugins.EntityLogger
 		{
 			lock (entities)
 				return entities.Any(entity => entity.Equals(newEntity));
-		}		
+		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using PaleTree.Shared;
+﻿using PaleTree.Plugins.EntityLogger.Properties;
+using PaleTree.Shared;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -89,6 +90,12 @@ namespace PaleTree.Plugins.EntityLogger
 		private void BtnInfo_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("Entity Logger reads all logged packets and displays information about the creatures and props found.", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void BtnSettings_Click(object sender, EventArgs e)
+		{
+			var form = new FrmOptions();
+			form.ShowDialog();
 		}
 	}
 }

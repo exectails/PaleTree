@@ -49,8 +49,6 @@
     <Compile Include="ListViewNF.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Math2.cs" />
-    <Compile Include="NPC.cs" />
     <Compile Include="Op.cs" />
     <Compile Include="Packet.cs" />
     <Compile Include="PalePacket.cs" />
