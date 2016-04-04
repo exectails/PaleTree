@@ -134,8 +134,8 @@ namespace PaleTree.Plugins.EntityLogger
 			sb.AppendLine("Hp: {0:0.00} / {1:0.00}", this.Hp, this.MaxHp);
 			sb.AppendLine();
 
-			sb.AppendLine("Position: X:{0:0}, Y:{1:0}, Z:{2:0}", this.Position.X, this.Position.Y, this.Position.Z);
-			sb.AppendLine("Direction: {0:0}", this.Direction.ToDegree());
+			sb.AppendLine("Position: X:{0}, Y:{1}, Z:{2}", this.Position.X, this.Position.Y, this.Position.Z);
+			sb.AppendLine("Direction: {0}", this.Direction.ToDegree());
 			sb.AppendLine();
 			
 			return sb.ToString();
@@ -148,7 +148,7 @@ namespace PaleTree.Plugins.EntityLogger
 			if (this.IsWarp)
 			{
 				Monster pairWarp = new Monster(0, 0, NpcType.NPC);
-				pairWarp.Name = "NO_DESTINATION_WARP_FOUND";
+				pairWarp.Name = "NO_WARP_FOUND";
 				for (int i = Entities.Count - 1; i >= 0; --i)
 				{
 					Monster other = (Monster)Entities[i];
@@ -165,9 +165,9 @@ namespace PaleTree.Plugins.EntityLogger
 				}
 
 				sb.Append("addWarp(");
-				sb.Append("\"{0}\", {1:0}, ", this.WarpName, this.Direction.ToDegree());
-				sb.Append("\"{0}\", {1:0}, {2:0}, {3:0}, ", GetMapClassName(this.Name), this.Position.X, this.Position.Y, this.Position.Z);
-				sb.Append("\"{0}\", {1:0}, {2:0}, {3:0}", GetMapClassName(pairWarp.Name), pairWarp.Position.X + 50, pairWarp.Position.Y + 50, pairWarp.Position.Z + 50);
+				sb.Append("\"{0}\", {1}, ", this.WarpName, this.Direction.ToDegree());
+				sb.Append("\"{0}\", {1}, {2}, {3}, ", GetMapClassName(pairWarp.Name), this.Position.X, this.Position.Y, this.Position.Z);
+				sb.Append("\"{0}\", {1}, {2}, {3}", GetMapClassName(this.Name), pairWarp.Position.X + 50, pairWarp.Position.Y + 50, pairWarp.Position.Z + 50);
 				sb.Append(")");
 				sb.AppendLine();
 			}

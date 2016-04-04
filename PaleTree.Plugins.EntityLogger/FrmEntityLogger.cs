@@ -1,4 +1,4 @@
-﻿using PaleTree.Plugins.EntityLogger.Properties;
+﻿using Melia.Shared.Const;
 using PaleTree.Shared;
 using System;
 using System.Collections.Generic;
@@ -28,12 +28,15 @@ namespace PaleTree.Plugins.EntityLogger
 		{
 			LstEntities.InvokeIfRequired((MethodInvoker)delegate
 			{
-				var lvi = new ListViewItem(entity.NpcType.ToString());
-				lvi.SubItems.Add(entity.Id.ToString("X16"));
-				lvi.SubItems.Add(entity.Name);
-				lvi.Tag = entity;
+				if (entity.NpcType == NpcType.NPC)
+				{
+					var lvi = new ListViewItem(entity.NpcType.ToString());
+					lvi.SubItems.Add(entity.Id.ToString("X16"));
+					lvi.SubItems.Add(entity.Name);
+					lvi.Tag = entity;
 
-				LstEntities.Items.Add(lvi);
+					LstEntities.Items.Add(lvi);
+				}
 			});
 		}
 
