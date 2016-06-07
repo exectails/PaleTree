@@ -60,6 +60,7 @@ namespace PaleTree.Shared
 		public const int BC_WAIT_QUEUE_ORDER = 0x5F; // Size: 10
 		public const int CB_CANCEL_SERVER_WAIT_QUEUE = 0x60; // Size: 10
 		public const int CB_NGS = 0x61; // Size: 10254
+		public const int CB_GEMSCOOL_PCINFO = 0x62; // Size: 1290
 		public const int ZC_TREASUREMARK_LIST_MAP = 0xD0; // Size: 0
 		public const int CS_LOGIN = 0xB55; // Size: 64
 		public const int SC_NORMAL = 0xB56; // Size: 0
@@ -690,6 +691,7 @@ namespace PaleTree.Shared
 			_sizes[Op.BC_WAIT_QUEUE_ORDER] = 10;
 			_sizes[Op.CB_CANCEL_SERVER_WAIT_QUEUE] = 10;
 			_sizes[Op.CB_NGS] = 10254;
+			_sizes[Op.CB_GEMSCOOL_PCINFO] = 1290;
 			_sizes[Op.ZC_TREASUREMARK_LIST_MAP] = 0;
 			_sizes[Op.CS_LOGIN] = 64;
 			_sizes[Op.SC_NORMAL] = 0;
