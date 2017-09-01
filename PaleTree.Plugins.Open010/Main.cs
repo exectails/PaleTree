@@ -71,14 +71,28 @@ namespace PaleTree.Plugins.Open010
 			var tmpPath = Path.GetTempFileName();
 			File.WriteAllBytes(tmpPath, palePacket.Packet.GetBuffer());
 
-			Process.Start(path010, '"' + tmpPath + '"');
-
-			// Run template if it exists
+			// Open file with template
 			var pathtpl = Path.Combine(Settings.Default.FolderTpl, palePacket.OpName + ".bt");
+			var select = palePacket.OpSize;
+
+			// Originally I had 010 open the file first, and then made it
+			// run the template on it in another process start, but I don't
+			// remember why I did it that way, and it now seems to be
+			// working fine to do it all in one, and it's faster, so I'll
+			// go with that.
+
 			if (File.Exists(pathtpl))
-				Process.Start(path010, '"' + "-template:" + pathtpl + '"');
+			{
+				Process.Start(path010, string.Format("\"{0}\" \"-template:{1}\" -select::{2}", tmpPath, pathtpl, select));
+			}
 			else
-				MessageBox.Show("No template found for '" + palePacket.OpName + "'.", Name, MessageBoxButtons.OK, MessageBoxIcon.Information);
+			{
+				var result = MessageBox.Show("No template found for '" + palePacket.OpName + "', do you still want to open the packet in 010?", Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+				if (result == DialogResult.Yes)
+				{
+					Process.Start(path010, string.Format("\"{0}\" -select::{2}", tmpPath, pathtpl, select));
+				}
+			}
 		}
 	}
 }
