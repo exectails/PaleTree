@@ -78,7 +78,7 @@ namespace PaleTree.Plugins.Open010
 					var len = BitConverter.ToUInt16(buffer, i + 2);
 					if (i + 4 + len <= buffer.Length)
 					{
-						var uncompress = MessageBox.Show("Seemingly compressed data found, uncompress for 010?", Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+						var uncompress = MessageBox.Show("Seemingly compressed data found at index " + i + ", uncompress for 010?", Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 						if (uncompress == DialogResult.Yes)
 						{
 							using (var msOut = new MemoryStream())
