@@ -7,6 +7,7 @@ using PaleTree.Plugins.Open010.Properties;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using System.IO.Compression;
 
 namespace PaleTree.Plugins.Open010
 {
@@ -67,9 +68,43 @@ namespace PaleTree.Plugins.Open010
 					return;
 			}
 
+			// Get buffer
+			var buffer = palePacket.Packet.GetBuffer();
+			for (int i = 0; i < buffer.Length - 3; ++i)
+			{
+				var val = BitConverter.ToUInt16(buffer, i);
+				if (val == 0xFA8D)
+				{
+					var len = BitConverter.ToUInt16(buffer, i + 2);
+					if (i + 4 + len <= buffer.Length)
+					{
+						var uncompress = MessageBox.Show("Seemingly compressed data found, uncompress for 010?", Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+						if (uncompress == DialogResult.Yes)
+						{
+							using (var msOut = new MemoryStream())
+							{
+								msOut.Write(buffer, 0, i);
+								msOut.Write(new byte[2], 0, 2);
+
+								using (var msIn = new MemoryStream(buffer, i + 4, len))
+								using (var ds = new DeflateStream(msIn, CompressionMode.Decompress))
+								{
+									ds.CopyTo(msOut);
+
+									//Console.WriteLine(BitConverter.ToString(msOut.ToArray()).Replace("-", " "));
+								}
+
+								msOut.Write(buffer, i + 4 + len, buffer.Length - (i + 4 + len));
+								buffer = msOut.ToArray();
+							}
+						}
+					}
+				}
+			}
+
 			// Create temp file for the buffer and open it in 010
 			var tmpPath = Path.GetTempFileName();
-			File.WriteAllBytes(tmpPath, palePacket.Packet.GetBuffer());
+			File.WriteAllBytes(tmpPath, buffer);
 
 			// Open file with template
 			var pathtpl = Path.Combine(Settings.Default.FolderTpl, palePacket.OpName + ".bt");
