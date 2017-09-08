@@ -88,14 +88,11 @@ namespace PaleTree.Plugins.Open010
 
 								using (var msIn = new MemoryStream(buffer, i + 4, len))
 								using (var ds = new DeflateStream(msIn, CompressionMode.Decompress))
-								{
 									ds.CopyTo(msOut);
-
-									//Console.WriteLine(BitConverter.ToString(msOut.ToArray()).Replace("-", " "));
-								}
 
 								msOut.Write(buffer, i + 4 + len, buffer.Length - (i + 4 + len));
 								buffer = msOut.ToArray();
+								break;
 							}
 						}
 					}
