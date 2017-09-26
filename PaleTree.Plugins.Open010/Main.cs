@@ -75,8 +75,10 @@ namespace PaleTree.Plugins.Open010
 				var val = BitConverter.ToUInt16(buffer, i);
 				if (val == 0xFA8D)
 				{
-					var len = BitConverter.ToUInt16(buffer, i + 2);
-					if (i + 4 + len <= buffer.Length)
+					var len = BitConverter.ToUInt16(buffer, i + sizeof(short));
+					var lengthSize = sizeof(int); // changed from short to int in i174236
+
+					if (i + sizeof(short) + lengthSize + len <= buffer.Length)
 					{
 						var uncompress = MessageBox.Show("Seemingly compressed data found at index " + i + ", uncompress for 010?", Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 						if (uncompress == DialogResult.Yes)
@@ -84,13 +86,13 @@ namespace PaleTree.Plugins.Open010
 							using (var msOut = new MemoryStream())
 							{
 								msOut.Write(buffer, 0, i);
-								msOut.Write(new byte[2], 0, 2);
+								msOut.Write(new byte[sizeof(short)], 0, sizeof(short));
 
-								using (var msIn = new MemoryStream(buffer, i + 4, len))
+								using (var msIn = new MemoryStream(buffer, i + sizeof(short) + lengthSize, len))
 								using (var ds = new DeflateStream(msIn, CompressionMode.Decompress))
 									ds.CopyTo(msOut);
 
-								msOut.Write(buffer, i + 4 + len, buffer.Length - (i + 4 + len));
+								msOut.Write(buffer, i + sizeof(short) + lengthSize + len, buffer.Length - (i + sizeof(short) + lengthSize + len));
 								buffer = msOut.ToArray();
 								break;
 							}
