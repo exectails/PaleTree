@@ -752,13 +752,13 @@ namespace PaleTree
 		/// <param name="e"></param>
 		private void BtnMenuPacketsCopyHex_Click(object sender, EventArgs e)
 		{
-			//var selected = GetSelectedPacket();
-			//if (selected == null)
-			//	return;
+			var selected = GetSelectedPacket();
+			if (selected == null)
+				return;
 
-			//var str = HexTool.ToString(selected.Packet.GetBuffer());
+			var str = HexTool.ToString(selected.Packet.GetBuffer());
 
-			//Clipboard.SetText(str);
+			Clipboard.SetText(str);
 		}
 
 		/// <summary>
