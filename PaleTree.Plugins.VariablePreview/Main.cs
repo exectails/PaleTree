@@ -42,6 +42,9 @@ namespace PaleTree.Plugins.VariablePreview
 
 		private void OnSelected(PalePacket palePacket)
 		{
+			if (form == null || form.IsDisposed)
+				return;
+
 			if (palePacket != null)
 				buffer = palePacket.Packet.GetBuffer();
 			else
