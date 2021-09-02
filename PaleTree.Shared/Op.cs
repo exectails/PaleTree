@@ -39,8 +39,8 @@ namespace PaleTree.Shared
                 		if (row["op"].ToString() == "0x" + op.ToString("X"))
                 		{
 					return Int32.Parse(row["size"].ToString().Trim('(', ')'));
-                			}
-            			}
+				}
+			}
 			return -1;
 		}
 
