@@ -50,6 +50,8 @@ namespace PaleTree
 
 			LblCurrentFileName.Text = "";
 			LblPacketProvider.Text = "";
+			
+			Shared.Op.FillDataTable();
 		}
 
 		private void FrmMain_Load(object sender, EventArgs e)
