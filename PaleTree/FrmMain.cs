@@ -50,6 +50,24 @@ namespace PaleTree
 
 			LblCurrentFileName.Text = "";
 			LblPacketProvider.Text = "";
+			
+			CheckForFile();
+		}
+
+		private void CheckForFile()
+		{
+			if (File.Exists("Zemyna_Ops.txt"))
+			{
+				Shared.Op.FillDictionary();
+			}
+			else
+			{
+				var messageBoxResault = MessageBox.Show("Zemyna_Ops.txt is missing, do you want to continue anyway?", "Configuration", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+				if (messageBoxResault == DialogResult.No)
+				{
+					this.Close();
+				}
+			}
 		}
 
 		private void FrmMain_Load(object sender, EventArgs e)
