@@ -62,7 +62,7 @@ namespace PaleTree
 			}
 			else
 			{
-				var messageBoxResault = MessageBox.Show("Zemyna_Ops.txt is missing, do you want to continue anyway?", "Configuration", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+				var messageBoxResault = MessageBox.Show("Zemyna_Ops.txt is missing, do you want to continue anyway?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 				if (messageBoxResault == DialogResult.No)
 				{
 					this.Close();
