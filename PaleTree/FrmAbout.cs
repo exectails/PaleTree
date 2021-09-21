@@ -17,18 +17,19 @@ namespace PaleTree
 			InitializeComponent();
 		}
 
+		private void FrmAbout_Load(object sender, EventArgs e)
+		{
+		}
+
 		private void BtnClose_Click(object sender, EventArgs e)
 		{
 			Close();
 		}
 
-		private void FrmAbout_Load(object sender, EventArgs e)
+		private void Link_Click(object sender, EventArgs e)
 		{
-		}
-
-		private void LblLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			Process.Start(LblLink.Text);
+			var url = (string)((Control)sender).Tag;
+			Process.Start(url);
 		}
 	}
 }
