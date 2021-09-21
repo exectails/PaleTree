@@ -32,6 +32,9 @@ namespace PaleTree
 
 		private StringWriter log;
 
+		private bool receivedOpList;
+		private bool receivedOpWarning;
+
 		public FrmMain()
 		{
 			InitializeComponent();
@@ -484,6 +487,9 @@ namespace PaleTree
 				return;
 			}
 
+			receivedOpList = false;
+			receivedOpWarning = false;
+
 			SendMessage(providerHWnd, Sign.Connect);
 
 			BtnConnect.Enabled = false;
@@ -590,19 +596,61 @@ namespace PaleTree
 				if (cds.cbData < 2)
 					return;
 
-				var recv = (int)cds.dwData == Sign.Recv;
-
 				var data = new byte[cds.cbData];
 				Marshal.Copy(cds.lpData, data, 0, cds.cbData);
 
-				var type = (!recv ? PacketType.ClientServer : PacketType.ServerClient);
-				var packet = new Packet(data, type);
-				var name = Shared.Op.GetName(packet.Op);
-				var length = Shared.Op.GetSize(packet.Op);
-				var palePacket = new PalePacket(name, length, packet, DateTime.Now, recv);
+				var sign = (int)cds.dwData;
+				if (sign == Sign.OpList)
+				{
+					try
+					{
+						Op.UseBinaryList(data);
+						receivedOpList = true;
+					}
+					catch
+					{
+						// If something goes wrong, we _can_ continue, but
+						// the ops and size would potentially be incorrect,
+						// since we'll be using the last opcodes we had.
+						// Ask the user what they want to do.
+						var result = MessageBox.Show($"Failed to read remote opcode list. The displayed op names and sizes might be incorrect, continue anyway?", this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+						if (result != DialogResult.Yes)
+						{
+							this.Disconnect();
+							return;
+						}
 
-				lock (packetQueue)
-					packetQueue.Enqueue(palePacket);
+						receivedOpWarning = true;
+					}
+				}
+				else
+				{
+					// If we didn't receive an op list upon connection,
+					// but are now receiving packets, Zemyna is presumably
+					// outdated. Ask the user what they want to do.
+					if (!receivedOpList && !receivedOpWarning)
+					{
+						var result = MessageBox.Show($"You're using an outdated version of Zemyna. The displayed op names and sizes might be incorrect, continue anyway?", this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+						if (result != DialogResult.Yes)
+						{
+							this.Disconnect();
+							return;
+						}
+
+						receivedOpWarning = true;
+					}
+
+					var recv = (int)cds.dwData == Sign.Recv;
+
+					var type = (!recv ? PacketType.ClientServer : PacketType.ServerClient);
+					var packet = new Packet(data, type);
+					var name = Shared.Op.GetName(packet.Op);
+					var length = Shared.Op.GetSize(packet.Op);
+					var palePacket = new PalePacket(name, length, packet, DateTime.Now, recv);
+
+					lock (packetQueue)
+						packetQueue.Enqueue(palePacket);
+				}
 			}
 			base.WndProc(ref m);
 		}

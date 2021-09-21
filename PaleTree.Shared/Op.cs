@@ -2,6 +2,7 @@
 // For more information, see license file in the main folder
 
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 
 namespace PaleTree.Shared
@@ -2221,6 +2222,28 @@ namespace PaleTree.Shared
 			if (!_names.TryGetValue(op, out var name))
 				return "?";
 			return name;
+		}
+
+		public static void UseBinaryList(byte[] opList)
+		{
+			_sizes.Clear();
+			_names.Clear();
+
+			using (var ms = new MemoryStream(opList))
+			using (var br = new BinaryReader(ms))
+			{
+				var count = br.ReadInt32();
+
+				for (var i = 0; i < count; ++i)
+				{
+					var name = br.ReadString();
+					var op = br.ReadInt32();
+					var size = br.ReadInt32();
+
+					_sizes[op] = size;
+					_names[op] = name;
+				}
+			}
 		}
 	}
 }
