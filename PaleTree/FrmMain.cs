@@ -274,6 +274,14 @@ namespace PaleTree
 		{
 			var name = palePacket.OpName;
 
+			if (name == "ZC_NORMAL")
+			{
+				var size = palePacket.Packet.GetShort();
+				var subOp = palePacket.Packet.GetInt();
+				name += "(0x" + subOp.ToString("X2") + ")";
+				palePacket.Packet.Rewind();
+			}
+
 			var lvi = new ListViewItem((palePacket.Received ? "<" : ">") + palePacket.Op.ToString("X8"));
 			lvi.UseItemStyleForSubItems = false;
 			lvi.BackColor = palePacket.Received ? Color.FromArgb(0x0033bbff) : Color.FromArgb(0x00ff5522);

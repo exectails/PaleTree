@@ -52,8 +52,8 @@ namespace PaleTree.Shared
 			this.Op = this.GetShort();
 			var sequence = this.GetInt();
 
-			if (type == PacketType.ClientServer)
-				this.GetInt(); // checksum
+			//if (type == PacketType.ClientServer)
+			this.GetInt(); // checksum
 
 			_bodyStart = _ptr;
 		}
