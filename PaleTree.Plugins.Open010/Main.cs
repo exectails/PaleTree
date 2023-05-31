@@ -70,31 +70,90 @@ namespace PaleTree.Plugins.Open010
 
 			// Get buffer
 			var buffer = palePacket.Packet.GetBuffer();
-			for (int i = 0; i < buffer.Length - 3; ++i)
+
+			if (palePacket.OpName == "CZ_QUICKSLOT_LIST" || palePacket.OpName == "ZC_QUICK_SLOT_LIST")
 			{
-				var val = BitConverter.ToUInt16(buffer, i);
-				if (val == 0xFA8D)
+				for (int i = 0; i < buffer.Length - 3; ++i)
 				{
-					var len = BitConverter.ToUInt16(buffer, i + sizeof(short));
-					var lengthSize = sizeof(int); // changed from short to int in i174236
+					var val1 = BitConverter.ToUInt16(buffer, i);
 
-					if (i + sizeof(short) + lengthSize + len <= buffer.Length)
+					if (palePacket.OpName == "CZ_QUICKSLOT_LIST")
 					{
-						var uncompress = MessageBox.Show("Seemingly compressed data found at index " + i + ", uncompress for 010?", Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-						if (uncompress == DialogResult.Yes)
+						if (val1 > buffer.Length || val1 < buffer.Length - 7)
+							continue;
+					}
+					else
+					{
+						if (val1 != buffer.Length)
+							continue;
+					}
+
+					var val2 = BitConverter.ToInt32(buffer, i + sizeof(short)); // changed from short to int in i174236
+					if (val2 < buffer.Length - i - 10 || val2 > buffer.Length - i + 10)
+						continue;
+
+					var compressedSize = val2;
+					var compressedStart = i + sizeof(short) + sizeof(int);
+
+					if (palePacket.OpName == "ZC_QUICK_SLOT_LIST")
+						compressedStart += sizeof(byte);
+
+					var uncompress = MessageBox.Show("Seemingly compressed data found at index " + i + ", uncompress for 010?", Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+					if (uncompress == DialogResult.Yes)
+					{
+						var compressedData = new byte[compressedSize];
+						Buffer.BlockCopy(buffer, compressedStart, compressedData, 0, compressedSize);
+
+						byte[] uncompressedData;
+						using (var msIn = new MemoryStream(compressedData))
+						using (var msOut = new MemoryStream())
 						{
-							using (var msOut = new MemoryStream())
+							using (var ds = new DeflateStream(msIn, CompressionMode.Decompress))
+								ds.CopyTo(msOut);
+
+							uncompressedData = msOut.ToArray();
+						}
+
+						using (var msOut = new MemoryStream())
+						{
+							msOut.Write(buffer, 0, compressedStart);
+							msOut.Write(uncompressedData, 0, uncompressedData.Length);
+							msOut.Write(buffer, compressedStart + compressedSize, buffer.Length - (compressedStart + compressedSize));
+
+							buffer = msOut.ToArray();
+						}
+					}
+					break;
+				}
+			}
+			else
+			{
+				for (int i = 0; i < buffer.Length - 3; ++i)
+				{
+					var val = BitConverter.ToUInt16(buffer, i);
+					if (val == 0xFA8D)
+					{
+						var len = BitConverter.ToUInt16(buffer, i + sizeof(short));
+						var lengthSize = sizeof(int); // changed from short to int in i174236
+
+						if (i + sizeof(short) + lengthSize + len <= buffer.Length)
+						{
+							var uncompress = MessageBox.Show("Seemingly compressed data found at index " + i + ", uncompress for 010?", Name, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+							if (uncompress == DialogResult.Yes)
 							{
-								msOut.Write(buffer, 0, i);
-								msOut.Write(new byte[sizeof(short)], 0, sizeof(short));
+								using (var msOut = new MemoryStream())
+								{
+									msOut.Write(buffer, 0, i);
+									msOut.Write(new byte[sizeof(short)], 0, sizeof(short));
 
-								using (var msIn = new MemoryStream(buffer, i + sizeof(short) + lengthSize, len))
-								using (var ds = new DeflateStream(msIn, CompressionMode.Decompress))
-									ds.CopyTo(msOut);
+									using (var msIn = new MemoryStream(buffer, i + sizeof(short) + lengthSize, len))
+									using (var ds = new DeflateStream(msIn, CompressionMode.Decompress))
+										ds.CopyTo(msOut);
 
-								msOut.Write(buffer, i + sizeof(short) + lengthSize + len, buffer.Length - (i + sizeof(short) + lengthSize + len));
-								buffer = msOut.ToArray();
-								break;
+									msOut.Write(buffer, i + sizeof(short) + lengthSize + len, buffer.Length - (i + sizeof(short) + lengthSize + len));
+									buffer = msOut.ToArray();
+									break;
+								}
 							}
 						}
 					}
