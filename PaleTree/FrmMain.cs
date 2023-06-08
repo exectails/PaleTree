@@ -892,7 +892,7 @@ namespace PaleTree
 			for (int i = 0; i < LstPackets.Items.Count; ++i)
 			{
 				var palePacket = (PalePacket)LstPackets.Items[i].Tag;
-				if (palePacket.Received && Settings.Default.FilterRecvEnabled)
+				if (palePacket.Received /*&& Settings.Default.FilterRecvEnabled*/)
 				{
 					lock (recvFilter)
 					{
@@ -900,7 +900,7 @@ namespace PaleTree
 							toRemove.Add(i);
 					}
 				}
-				else if (!palePacket.Received && Settings.Default.FilterSendEnabled)
+				else if (!palePacket.Received /*&& Settings.Default.FilterSendEnabled*/)
 				{
 					lock (sendFilter)
 					{
