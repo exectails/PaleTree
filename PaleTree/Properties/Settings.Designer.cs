@@ -12,7 +12,7 @@ namespace PaleTree.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.9.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -87,39 +87,7 @@ namespace PaleTree.Properties {
                 this["FilterSendEnabled"] = value;
             }
         }
-
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool FilterRecvInvertedEnabled
-        {
-            get
-            {
-                return ((bool)(this["FilterRecvInvertedEnabled"]));
-            }
-            set
-            {
-                this["FilterRecvInvertedEnabled"] = value;
-            }
-        }
-
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Configuration.SettingsProviderAttribute(typeof(PortableSettingsProvider))]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool FilterSendInvertedEnabled
-        {
-            get
-            {
-                return ((bool)(this["FilterSendInvertedEnabled"]));
-            }
-            set
-            {
-                this["FilterSendInvertedEnabled"] = value;
-            }
-        }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Configuration.SettingsProviderAttribute(typeof(PortableSettingsProvider))]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -169,6 +137,30 @@ namespace PaleTree.Properties {
             }
             set {
                 this["FilterSend"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FilterRecvInvertedEnabled {
+            get {
+                return ((bool)(this["FilterRecvInvertedEnabled"]));
+            }
+            set {
+                this["FilterRecvInvertedEnabled"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FilterSendInvertedEnabled {
+            get {
+                return ((bool)(this["FilterSendInvertedEnabled"]));
+            }
+            set {
+                this["FilterSendInvertedEnabled"] = value;
             }
         }
     }
