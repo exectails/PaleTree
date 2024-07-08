@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using PaleTree.Shared;
-using PaleTree.Plugins.Open010.Properties;
-using System.Windows.Forms;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
 using System.IO.Compression;
+using System.Windows.Forms;
+using PaleTree.Plugins.Open010.Properties;
 
 namespace PaleTree.Plugins.Open010
 {
@@ -176,7 +173,10 @@ namespace PaleTree.Plugins.Open010
 
 			if (File.Exists(pathtpl))
 			{
-				Process.Start(path010, string.Format("\"{0}\" \"-template:{1}\" -select::{2}", tmpPath, pathtpl, select));
+				var parameters = new List<string>();
+				parameters.Add(palePacket.Received ? "recv" : "sent");
+
+				Process.Start(path010, string.Format("\"{0}\" \"-template:{1}:({3})\" -select::{2}", tmpPath, pathtpl, select, string.Join(",", parameters)));
 			}
 			else
 			{
