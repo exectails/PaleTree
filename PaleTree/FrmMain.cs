@@ -16,6 +16,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Be.Windows.Forms;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace PaleTree
 {
@@ -202,25 +203,51 @@ namespace PaleTree
 						var split = line.Substring(0, tabIndex).Split(' ');
 
 						PacketType type;
-						DateTime date;
+						string timeStr;
 						string name;
 						int length = -1;
 
 						if (split.Length == 3)
 						{
 							type = (split[0] == "Send" ? PacketType.ClientServer : PacketType.ServerClient);
-							date = DateTime.Parse(split[1]);
+							timeStr = split[1];
+							//date = DateTime.Parse(split[1]);
 							name = split[2];
 						}
 						else if (split.Length == 4)
 						{
 							type = (split[0] == "Send" ? PacketType.ClientServer : PacketType.ServerClient);
-							date = DateTime.Parse(split[1]);
+							timeStr = split[1];
+							//date = DateTime.Parse(split[1]);
 							name = split[2];
 							length = Convert.ToInt32(split[3]);
 						}
 						else
+						{
 							continue;
+						}
+
+						// In all our wisdom, we didn't add dates to the logs and
+						// are now unable to tell when we logged which packets.
+						// Since we want to know that though, we'll try to get
+						// the date from the file name or the last write time.
+						var dateStr = DateTime.Now.ToString("yyyyMMdd");
+
+						var fileName = Path.GetFileName(path);
+						var match = Regex.Match(fileName, @"^(?<date>\d{8})_(?<time>\d{6})");
+						if (match.Success)
+						{
+							dateStr = match.Groups["date"].Value;
+						}
+						else
+						{
+							var fileDate = File.GetLastWriteTime(path);
+							dateStr = fileDate.ToString("yyyyMMdd");
+						}
+
+						dateStr = dateStr.Insert(4, "-").Insert(7, "-");
+						var dtStr = dateStr + " " + timeStr;
+						var date = DateTime.Parse(dtStr);
 
 						var packetStr = line.Substring(tabIndex + 1, line.Length - tabIndex - 1);
 						var packetArr = HexTool.ToByteArray(packetStr);

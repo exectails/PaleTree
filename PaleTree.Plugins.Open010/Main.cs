@@ -175,6 +175,7 @@ namespace PaleTree.Plugins.Open010
 			{
 				var parameters = new List<string>();
 				parameters.Add(palePacket.Received ? "recv" : "sent");
+				parameters.Add(palePacket.Time.ToString("yyyyMMdd"));
 
 				Process.Start(path010, string.Format("\"{0}\" \"-template:{1}:({3})\" -select::{2}", tmpPath, pathtpl, select, string.Join(",", parameters)));
 			}
