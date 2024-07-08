@@ -50,10 +50,16 @@ namespace PaleTree.Shared
 
 			this.Length = buffer.Length;
 			this.Op = this.GetShort();
-			var sequence = this.GetInt();
 
+			this.GetInt(); // sequence
+
+			// The checksum was originally client-server only, but it's now also
+			// used in server-client packets. For compatibility with empty packets
+			// in older logs, we'll check the buffer length, as we get an exception
+			// otherwise.
 			//if (type == PacketType.ClientServer)
-			this.GetInt(); // checksum
+			if (buffer.Length >= 10)
+				this.GetInt(); // checksum
 
 			_bodyStart = _ptr;
 		}
